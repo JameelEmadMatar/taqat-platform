@@ -2,6 +2,7 @@
   --bs-gutter-x: 1.5rem;
   --main-color : #007BD1;
   --text-color:#696A70;
+  --title-size:24px;
 }
 /* Reset */
 body{

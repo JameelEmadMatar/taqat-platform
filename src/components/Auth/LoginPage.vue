@@ -304,6 +304,4 @@ form .last span{
         display:flex;
     }
 }
-@media screen and (max-width:767px){
-}
 </style>
