@@ -16,4 +16,7 @@
     gap: 10px;
     align-items: center;
 }
+.mode svg{
+    cursor:pointer
+}
 </style>

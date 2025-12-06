@@ -15,6 +15,7 @@
 <style scoped>
 .lang{
     display: flex;
+    align-items:center;
     gap: 10px;
 }
 .lang select{
