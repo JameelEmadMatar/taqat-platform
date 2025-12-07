@@ -202,7 +202,7 @@ button{
     height:100%;
     margin-top:15px;
 }
-nav{
+:deep(nav){
     display:none
 }
 @media screen and (max-width:992px){

@@ -117,8 +117,8 @@
                     </div>
                 </form>
                 <div class="buttons">
-                    <button class="pointer Back two" @click="useStageStore().updateRound(0)">Back</button>
-                    <button class="pointer one" @click="useStageStore().updateRound(2)">Continue</button>
+                    <button class="two" @click="useStageStore().updateRound(0)">Back</button>
+                    <button class="one" @click="useStageStore().updateRound(2)">Continue</button>
                 </div>
             </div>
         </div>
@@ -142,15 +142,12 @@ const config = {
   clickOpens: true,
 }
 </script>
-<style>
+<style scoped>
 .container{
     height:100vh;
     padding-top: 40px;
     padding-bottom: 40px;
 }
-
-
-
 .main-box{
     margin: 20px 0;
     border: 1px solid #D9D9D9;
@@ -192,7 +189,7 @@ form{
     width: 100%;
     margin-bottom:25px;
 }
-.form-div input , .form-div select{
+.form-div input , .form-div select , :deep(.date-input){
     outline:none;
     border: 1px solid #D9D9D9;
     padding: 10px;
@@ -207,9 +204,6 @@ form{
     background-position: right 20px center;
     background-size: 24px;
 }
-.pointer{
-    cursor:pointer
-}
 .buttons{
     position:absolute;
     right: 30px;
@@ -220,6 +214,7 @@ form{
     align-items: center;
 }
 .buttons .one , .buttons .two{
+    cursor:pointer;
     border: none;
     outline: none;
     background-color: var(--main-color);
@@ -235,17 +230,12 @@ form{
     border: 1px solid #D9D9D9;
     width:100px;
 }
-nav{
-    display:none
-}
-
-
 .date-wrapper {
   position: relative;
   width:85%;
 }
 
-.date-input{
+:deep(.date-input){
     width:100% !important;
     cursor:pointer;
 }
@@ -262,13 +252,15 @@ nav{
   width:24px;
   height:24px;
 }
-
+:deep(.navbar){
+    display:none;
+}
 @media screen and (min-width:993px){
     .div-1{
         justify-content: normal;
     }
     .photo-box{
-            width: 34%;
+        width: 34%;
         display: flex;
         justify-content: space-between;
     }

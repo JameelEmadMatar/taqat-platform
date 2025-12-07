@@ -4,7 +4,7 @@
     <ProfessionalDetails v-if="round == 2"/>
 </template>
 <script setup>
-import { ref , onMounted , computed} from 'vue'
+import { ref , computed} from 'vue'
 import { useStageStore } from '../../Store/WantToWork/Stage'
 import WelcomePage from './WelcomePage.vue'
 import PersonalDetails from './PersonalDetails.vue'

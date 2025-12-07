@@ -134,7 +134,7 @@
                     </div>
 
                     <!-- Ready To Work? -->
-                    <div class="field">
+                    <div class="field last">
                         <label>Ready To Work?</label>
                         <label class="switch">
                             <span class="switch-text">Available to Work</span>
@@ -144,8 +144,8 @@
                     </div>
                 </form>
                 <div class="buttons">
-                    <button class="pointer Back two" @click="useStageStore().updateRound(1)">Back</button>
-                    <button class="pointer one" @click="useStageStore().updateRound(3)">Continue</button>
+                    <button class="two" @click="useStageStore().updateRound(1)">Back</button>
+                    <button class="one" @click="useStageStore().updateRound(3)">Continue</button>
                 </div>
             </div>
         </div>
@@ -178,7 +178,6 @@ const removeSkill = (tag) => {
 
 <style scoped>
 .container{
-    height:100%;
     min-height:100vh;
     padding-top: 40px;
     padding-bottom: 40px;
@@ -220,10 +219,13 @@ const removeSkill = (tag) => {
 }
 
 .field {
-  margin-bottom: 32px;
+  margin:30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.field.last{
+    margin-bottom:100px;
 }
 
 .field label {
@@ -384,9 +386,6 @@ input:checked + .slider::before {
   color: #1e293b;
   font-weight: 500;
 }
-
-
-
 .buttons{
     position:absolute;
     right: 30px;
@@ -397,6 +396,7 @@ input:checked + .slider::before {
     align-items: center;
 }
 .buttons .one , .buttons .two{
+    cursor:pointer;
     border: none;
     outline: none;
     background-color: var(--main-color);
@@ -412,7 +412,7 @@ input:checked + .slider::before {
     border: 1px solid #D9D9D9;
     width:100px;
 }
-nav{
+:deep(nav){
     display:none
 }
 @media screen and (max-width:992px){
@@ -458,6 +458,8 @@ nav{
         width:100%;
     }
     .field{
+        margin:0;
+        margin-bottom:30px;
         flex-direction:column;
         align-items:flex-start;
     }
