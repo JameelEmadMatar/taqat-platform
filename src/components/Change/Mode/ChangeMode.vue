@@ -1,22 +1,52 @@
 <template>
-    <div class="mode">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 3C10.8065 4.19347 10.136 5.81217 10.136 7.5C10.136 9.18783 10.8065 10.8065 12 12C13.1935 13.1935 14.8122 13.864 16.5 13.864C18.1878 13.864 19.8065 13.1935 21 12C21 13.78 20.4722 15.5201 19.4832 17.0001C18.4943 18.4802 17.0887 19.6337 15.4442 20.3149C13.7996 20.9961 11.99 21.1743 10.2442 20.8271C8.49836 20.4798 6.89472 19.6226 5.63604 18.364C4.37737 17.1053 3.5202 15.5016 3.17294 13.7558C2.82567 12.01 3.0039 10.2004 3.68509 8.55585C4.36628 6.91131 5.51983 5.50571 6.99987 4.51677C8.47991 3.52784 10.22 3 12 3Z" stroke="#191919" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <p>Dark Mode</p>
-        <svg class="change-mode" width="34" height="19" viewBox="0 0 34 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="34" height="19" rx="9.5" fill="#E8E8E8"/>
-            <circle cx="9.5" cy="9.5" r="7.5" fill="white"/>
-        </svg>
+    <div class="main">
+        <button
+            class="theme-toggle mode"
+            @click="toggleTheme"
+            :aria-label="isDark ? 'تبديل إلى الوضع الفاتح' : 'تبديل إلى الوضع الداكن'"
+            :title="isDark ? 'تفعيل الوضع الفاتح' : 'تفعيل الوضع الداكن'"
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path></svg>
+            <span class="theme-toggle__label">
+                {{ isDark ? 'Light Mode' : 'Dark Mode' }}
+            </span>
+        </button>
     </div>
 </template>
+
+<script setup>
+import { useDark, useToggle, useStorage } from '@vueuse/core'
+
+// استخدام storage لحفظ التفضيل
+const themeStorage = useStorage('theme', 'auto')
+
+const isDark = useDark({
+  selector: 'html',
+  attribute: 'class',
+  valueDark: 'dark',
+  valueLight: '',
+})
+
+const toggleTheme = () => {
+  isDark.value = !isDark.value
+  themeStorage.value = isDark.value ? 'dark' : 'light'
+}
+
+</script>
+
 <style scoped>
 .mode{
     display: flex;
-    gap: 10px;
     align-items: center;
+    gap: 5px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    padding: 0 10px;
+    cursor: pointer;
 }
-.mode svg{
-    cursor:pointer
+.mode:hover{
+    opacity:0.7;
+    transition: opacity 0.3s ease;
 }
 </style>

@@ -135,7 +135,7 @@ const date = ref('')
 
 const config = {
   altInput: true,
-  altFormat: 'j F Y',        // 6 December 1995
+  altFormat: 'j F Y',
   dateFormat: 'Y-m-d',
   maxDate: 'today',
   allowInput: true,

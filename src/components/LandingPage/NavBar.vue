@@ -4,6 +4,7 @@
       <div class="logo">
         <div class="logo-inside">
           <!-- اللوجو الأصلي -->
+          <router-link to="/">
             <svg class="taqat-logo" width="142" height="22" viewBox="0 0 142 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M141.644 0H121.676V5.19702H141.644V0Z" fill="#007BD1"/>
                 <path d="M134.213 8.47988V21.55H129.109V6.01562L134.213 8.47988Z" fill="#007BD1"/>
@@ -21,6 +22,7 @@
                 <path d="M19.9683 0H0V5.19702H19.9683V0Z" fill="#007BD1"/>
                 <path d="M12.5367 8.47988V21.55H7.43359V6.01562L12.5367 8.47988Z" fill="#007BD1"/>
             </svg> 
+          </router-link>
 
           <!-- زرار الإغلاق (X) -->
           <svg 
@@ -55,7 +57,11 @@
         <!-- القايمة -->
         <div class="navbar-list" :class="{ 'open': isMenuOpen }">
           <ul>
-            <li><a href="#">Find a Talent</a></li>
+            <li>
+              <router-link to="talents">
+                Find a Talent
+              </router-link>
+            </li>
             <li><a href="#">Find a Service</a></li>
             <li><a href="#">How It Works</a></li>
             <li><a href="#">Projects</a></li>
@@ -136,6 +142,9 @@ window.addEventListener('resize', () => {
 .navbar-content .logo .navbar-list ul li a{
     text-decoration:none;
     color:#191919
+}
+.navbar-content .logo .navbar-list ul li .router-link-exact-active{
+  color: var(--main-color);
 }
 .navbar-content .logo .logo-inside .x-svg , .navbar-content .logo .logo-inside .hamburger-svg{
     display:none
