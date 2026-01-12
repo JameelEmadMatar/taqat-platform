@@ -3,11 +3,13 @@ import { defineStore } from 'pinia'
 export const useServicesStore  = defineStore('services',{
     state : () => ({
         addServicesRound : 0,
-        show : true,
+        privacyShow : false,
+        show : false,
     }),
     getters : {
         getRound : (state) => state.addServicesRound,
         getShowStatus : (state) => state.show,
+        getPrivacyShow : (state) => state.privacyShow
     },
     actions : {
         updateRound(round){
@@ -15,6 +17,9 @@ export const useServicesStore  = defineStore('services',{
         },
         updateShowStatus(status){
             this.show = status
+        },
+        updatePrivacyShow(status){
+            this.privacyShow = status
         }
     }
 })

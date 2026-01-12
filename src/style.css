@@ -28,7 +28,7 @@ body{
 }
 /* Start Container */
 .container{
-    width: 100%;
+    max-width: 100%;
     padding-right: calc(var(--bs-gutter-x) * .5);
     padding-left: calc(var(--bs-gutter-x) * .5);
     margin-right: auto;
@@ -36,35 +36,34 @@ body{
   }
   @media (min-width: 1400px){
     .container {
-        max-width: 1380px;
+      max-width: 98%;
     }
   }
   @media (min-width: 1200px) and (max-width:1399px){
     .container {
-        max-width: 1140px;
+      max-width: 1380px;
     }
   }
   @media (min-width: 992px) and (max-width:1199px){
     .container {
-        max-width: 1050px
+      max-width: 1180px
     }
   }
   @media (min-width: 767px) and (max-width:991px){
     .container {
-        max-width: 740px;
+        max-width: 970px;
     }
   }
   @media (min-width: 576px) and (max-width:767px){
     .container {
-        max-width: 540px;
+        max-width: 740px;
     }
   }
   @media screen and (max-width:575px){
     .container {
-        max-width: 450px;
+        max-width: 98%;
     }
   }
-
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

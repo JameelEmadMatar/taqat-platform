@@ -1,5 +1,5 @@
 <template>
-    <div class="verification" v-if="showStatus" @click="closeModal">
+    <div class="verification" @click="closeModal">
         <div class="container" @click.stop>
             <TopBarVerification/>
             <IdentityStarted v-if="round == 0"/>
@@ -8,13 +8,15 @@
             <PersonalInformationOne v-if="round == 3"/>
             <PersonalInformationTwo v-if="round == 4"/>
             <PersonalInformationThree v-if="round == 5"/>
-            <DiscardChanges/>
+            <teleport to="body" v-if="showDiscardStatus">
+                <DiscardChanges idVerification="true"/>
+            </teleport>
         </div>
     </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed , defineAsyncComponent} from 'vue'
 import TopBarVerification from './TopBarVerification.vue'
 import IdentityStarted from './IdentityStarted.vue'
 import VerificationStageOne from './VerificationStageOne.vue'
@@ -22,18 +24,24 @@ import OtpVerification from './OtpVerification.vue'
 import PersonalInformationOne from './PersonalInformationOne.vue'
 import PersonalInformationTwo from './PersonalInformationTwo.vue'
 import PersonalInformationThree from './PersonalInformationThree.vue'
-import DiscardChanges from './DiscardChanges.vue'
 import { useRoundStore } from '../../Store/IdentityVerification/Round'
-const round = computed(() => useRoundStore().getRound)
-const showStatus = computed(() => useRoundStore().getShowStatus)
+
+const idStore = useRoundStore()
+const round = computed(() => idStore.getRound)
 function closeModal(){
     if(round.value == 0){
-        useRoundStore().updateShowStatus(false)
-        useRoundStore().updateDiscardBoxStatus(false)
+        idStore.updateShowStatus(false)
+        idStore.updateDiscardBoxStatus(false)
     }else{
-        useRoundStore().updateDiscardBoxStatus(true)
+        idStore.updateDiscardBoxStatus(true)
     }
 }
+
+const showDiscardStatus = computed(() => idStore.discardShow)
+
+const DiscardChanges = defineAsyncComponent(() => 
+    import('./DiscardChanges.vue')
+)
 </script>  
 
 <style scoped>

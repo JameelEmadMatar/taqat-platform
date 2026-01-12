@@ -41,24 +41,33 @@
                         Save
                     </button>
                 </div>
-                <DiscardChanges :nestedIndex = "1"/>
+                <teleport to="body" v-if="showStatus">
+                    <DiscardChanges :nestedIndex = "1"/>
+                </teleport>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref , computed , onUnmounted , watch} from 'vue'
-import DiscardChanges from '../../Auth/IdentityVerification/DiscardChanges.vue'
+import { ref , computed , onUnmounted , watch , defineAsyncComponent} from 'vue'
 import TopBar from '../BopUpTopBar/TopBar.vue'
 import { useRoundStore } from '../../Store/IdentityVerification/Round'
 import { useBadgesStore } from '../../Store/Badges/BadgesStore'
+
+const DiscardChanges = defineAsyncComponent(() =>
+    import('../../Auth/IdentityVerification/DiscardChanges.vue')
+)
 const allSkillsChoise = ref(["Front End Development" , "Full Stack" , "Web Design" , "Figma", "MultiMedia" , "UIUX" , "Graphic Design" , "Front End Development" , "Full Stack" , "Web Design" , "Figma", "MultiMedia" , "UIUX" , "Graphic Design"])
 const skillsChoiseSearch = ref()
 const skills = ref(['Web Design', 'Figma'])
 const skillInput = ref('')
 const choiseShow = ref(false)
 const badgesStore = useBadgesStore()
+const roundStore = useRoundStore()
+const showStatus = computed(() => roundStore.getDiscradStatus)
+
+
 const showSkillsStatus = computed(() => {
     const skillsSection = badgesStore.nestedShowStatus.find(item => item.name === 'Skills')
     return skillsSection ? skillsSection.status : false
@@ -66,8 +75,12 @@ const showSkillsStatus = computed(() => {
 
 
 const addSkillFromOptions = (skill) =>{
-    if(skills.value.length < 16 && !skills.value.includes(skill)){
-        skills.value.push(skill)
+    if(skills.value.length < 16 ){
+        if(!skills.value.includes(skill)){
+            skills.value.push(skill)
+        }else{
+            skills.value = skills.value.filter(e => e !== skill)
+        }
     }
     choiseShow.value = false
     skillInput.value = ''
@@ -78,6 +91,9 @@ const removeSkill = (tag) => {
 const cancle = () => {
     useRoundStore().updateDiscardBoxStatus(true)
 }
+const save = () => {
+    badgesStore.updateNestedStatus(1,false)
+}
 const searchChoise = () => {
     skillsChoiseSearch.value = allSkillsChoise.value.filter(e => {
         return e.includes(skillInput.value)
@@ -87,7 +103,7 @@ const inputClick = () => {
     if(skillInput.value == ''){
         skillsChoiseSearch.value  = allSkillsChoise.value
     }
-    choiseShow.value = true
+    choiseShow.value == true ? choiseShow.value = false : choiseShow.value = true
 }
 
 watch(showSkillsStatus, (newValue, oldValue) => {

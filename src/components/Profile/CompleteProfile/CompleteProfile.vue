@@ -1,5 +1,5 @@
 <template>
-    <section class="complete" v-if="show" @click="closeModal">
+    <section class="complete" @click="closeModal">
         <div class="complete-main" @click.stop>
             <div class="top">
                 <div class="one">
@@ -46,16 +46,16 @@
                 </div>
             </div>
         </div>
-        <SkillsEdit/>
     </section>
 </template>
 
 <script setup>
-import { ref , computed } from 'vue'
+import { ref , computed} from 'vue'
 import { useBadgesStore } from '../../Store/Badges/BadgesStore'
-import SkillsEdit from './SkillsEdit.vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 const badgesStore = useBadgesStore()
-const show = computed(() => badgesStore.getShowStatus)
 const badge = ref([
     {
         id : 0,
@@ -116,7 +116,18 @@ const closeModal = () => {
     badgesStore.updateShowStatus(false)
 }
 const showNestedBox = (index) => {
-    badgesStore.updateNestedStatus(index, true)
+    if(index == 2){
+        //router.push('/my-profile/experience')
+        badgesStore.updateShowStatus(false)
+    }else if(index == 4){
+        router.push('/my-profile/portfolio')
+        badgesStore.updateShowStatus(false)
+    }else if(index == 8){
+        router.push('/my-profile/workHistory')
+        badgesStore.updateShowStatus(false)
+    }else{
+        badgesStore.updateNestedStatus(index, true)
+    }
 }
 </script>
 

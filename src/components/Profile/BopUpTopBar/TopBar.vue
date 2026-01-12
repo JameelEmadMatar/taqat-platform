@@ -19,6 +19,8 @@
 
 <script setup>
 import { useRoundStore } from '../../Store/IdentityVerification/Round'
+import { useServicesStore } from '../../Store/Services/ServicesStore'
+const servicesStore = useServicesStore()
 const roundStore = useRoundStore()
 const props = defineProps({
     title: {
@@ -27,7 +29,7 @@ const props = defineProps({
     }
 })
 const Close = () => {
-    roundStore.updateDiscardBoxStatus(true)
+    props.title == "Privacy Policy" ? servicesStore.updatePrivacyShow(false) : roundStore.updateDiscardBoxStatus(true)
 }
 </script>
 

@@ -1,17 +1,30 @@
 <template>
     <div class="add-services" v-if="showSection">
         <div class="container main">
-            <TopBar title="Add Services"/>
-            <Overview/>
+            <TopBar title="Add Services" v-if="servicesStore.getRound <= 5"/>
+            <Overview v-if="servicesStore.getRound == 0"/>
+            <Pricing v-if="servicesStore.getRound == 1"/>
+            <Gallery v-if="servicesStore.getRound == 2" />
+            <Process v-if="servicesStore.getRound == 3" />
+            <Description v-if="servicesStore.getRound == 4" />
+            <Review v-if="servicesStore.getRound == 5" />
+            <!--
+            <DiscardChanges :addService='true'/>
+            -->
         </div>
     </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+//import DiscardChanges from '../../../Auth/IdentityVerification/DiscardChanges.vue'
 import TopBar from '../../BopUpTopBar/TopBar.vue'
 import Overview from './Overview.vue'
-import { useRoundStore } from '../../../Store/IdentityVerification/Round'
+import Pricing from './Pricing.vue'
+import Gallery from './Gallery.vue'
+import Process from './Process.vue'
+import Description from './Description.vue'
+import Review from './Review.vue'
 import { useServicesStore } from '../../../Store/Services/ServicesStore'
 const servicesStore = useServicesStore()
 const showSection = computed(() => {

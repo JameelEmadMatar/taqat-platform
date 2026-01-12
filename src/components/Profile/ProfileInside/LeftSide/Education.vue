@@ -5,7 +5,7 @@
                 <div class="title">
                     <p>Education</p>
                 </div>
-                <div class="edit" v-if="education">
+                <div class="edit" v-if="education" @click="showEdit">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M13.2633 5.43908L5.05327 14.1291C4.74327 14.4591 4.44327 15.1091 4.38327 15.5591L4.01327 18.7991C3.88327 19.9691 4.72327 20.7691 5.88327 20.5691L9.10327 20.0191C9.55327 19.9391 10.1833 19.6091 10.4933 19.2691L18.7033 10.5791C20.1233 9.07908 20.7633 7.36908 18.5533 5.27908C16.3533 3.20908 14.6833 3.93908 13.2633 5.43908Z" stroke="#191919" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M11.8936 6.88916C12.3236 9.64916 14.5636 11.7592 17.3436 12.0392" stroke="#191919" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
@@ -32,7 +32,7 @@
                     <path d="M28.5337 20V12" stroke="#191919" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <p>Add your academic background to help clients understand your qualifications.</p>
-                <div class="add-education">
+                <div class="add-education" @click="showEdit">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M8 12H16" stroke="#007BD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M12 16V8" stroke="#007BD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -46,7 +46,12 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-const education = ref(false)
+import { useBadgesStore } from '../../../Store/Badges/BadgesStore'
+const badgesStore = useBadgesStore()
+const showEdit = () => {
+    education.value ? badgesStore.updateNestedStatus(9,true) : badgesStore.updateNestedStatus(8,true)
+}
+const education = ref(true)
 </script>
 
 <style scoped>

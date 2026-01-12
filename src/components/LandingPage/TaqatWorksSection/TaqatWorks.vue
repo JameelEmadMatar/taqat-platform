@@ -1,5 +1,5 @@
 <template>
-    <section class="taqat-works">
+    <section class="taqat-works" id="works">
         <div class="container">
             <div class="title-div">
                 <h1>How Taqat Gaza Works</h1>

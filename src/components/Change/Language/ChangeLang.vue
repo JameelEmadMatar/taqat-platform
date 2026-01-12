@@ -5,13 +5,33 @@
             <path d="M12 2C9.43223 4.69615 8 8.27674 8 12C8 15.7233 9.43223 19.3038 12 22C14.5678 19.3038 16 15.7233 16 12C16 8.27674 14.5678 4.69615 12 2Z" stroke="#191919" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M2 12H22" stroke="#191919" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <select>
-            <option value="English">English</option>
-            <option value="Arabic">Arabic</option>
-            <option value="Span">Span</option>
+        <select v-model="currentLang" @change="changeLang(currentLang)">
+            <option value="English">{{currentLang == "English" ? 'English' : 'الإنجليزية'}}</option>
+            <option value="Arabic">{{currentLang == "English" ? 'Arabic' : 'العربية'}}</option>
         </select>
     </div>
 </template>
+
+<script setup>
+import { ref , computed , onMounted} from 'vue'
+import { useSettingsStore } from '../../Store/Settings/SettingStore'
+
+const settingStore = useSettingsStore()
+const currentLang = ref('English')
+
+const changeLang = (lang) => {
+    if(lang == "English"){
+        settingStore.updateLang('en')
+    }else{
+        settingStore.updateLang('ar')
+    }
+}
+onMounted(() => {
+    settingStore.getLang == 'en' ? currentLang.value = 'English' : currentLang.value = 'Arabic'
+    console.log(currentLang.value)
+})
+</script>
+
 <style scoped>
 .lang{
     display: flex;

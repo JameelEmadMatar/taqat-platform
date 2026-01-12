@@ -28,10 +28,11 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
 import { useBadgesStore } from '../../../Store/Badges/BadgesStore'
+
+const badgesStore = useBadgesStore()
 const showModel = () =>{
-    useBadgesStore().updateShowStatus(true)
+    badgesStore.updateShowStatus(true)
 }
 </script>
 

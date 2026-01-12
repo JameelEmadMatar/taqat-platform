@@ -1,5 +1,5 @@
 <template>
-    <div class="discard" v-if="showStatus">
+    <div class="discard">
         <div class="discard-main">
             <div class="top">
                 <div class="one">
@@ -18,22 +18,29 @@
     </div>
 </template>
 <script setup>
-import { computed } from 'vue'
+import { computed  , onMounted} from 'vue'
 import { useRoundStore } from '../../Store/IdentityVerification/Round'
 import { useBadgesStore } from '../../Store/Badges/BadgesStore'
 import { useServicesStore } from '../../Store/Services/ServicesStore'
+import { portfolioStore } from '../../Store/Portfolio/PortfolioStore'
 const props = defineProps({
+    idVerification : {
+        type:Object,
+    },
     nestedIndex: {
         type: Number,
-        required: true
     },
     addService : {
+        type : Object,
+    },
+    addProjects :{
         type : Object,
     }
 })
 const roundStore = useRoundStore()
 const badgesStore = useBadgesStore()
 const servicesStore = useServicesStore()
+const projectsStore = portfolioStore()
 const round = computed(() => roundStore.getRound)
 const showStatus = computed(() => roundStore.getDiscradStatus)
 
@@ -41,17 +48,32 @@ function cancle(){
     useRoundStore().updateDiscardBoxStatus(false)
 }
 function close(){
-    useRoundStore().updateDiscardBoxStatus(false)
-    useRoundStore().updateRound(0)
-    useRoundStore().updateShowStatus(false)
-    if(props.nestedIndex){
+    if(props.idVerification){
+        console.log('hello')
+        useRoundStore().updateDiscardBoxStatus(false)
+        useRoundStore().updateRound(0)
+        useRoundStore().updateShowStatus(false)
+    }
+    else if(props.nestedIndex){
         badgesStore.updateNestedStatus(props.nestedIndex , false)
     }else if(props.addService){
         servicesStore.updateRound(0)
         servicesStore.updateShowStatus(false)
+    }else if (props.addProjects){
+        projectsStore.updateRound(0)
+        projectsStore.updateShowStatus(false)
+        projectsStore.updateFiles([])
+        projectsStore.updateFormValues({
+            projectName : null,
+            texts : [],
+        })
+        projectsStore.updateProjectCover(null)
     }
 
 }
+onMounted(() => {
+    console.log(props.addService)
+})
 </script>
 <style scoped>
 .discard{

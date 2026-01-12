@@ -14,7 +14,6 @@
                     </div>
                     <ChangeLang/>
                     <ChangeMode/>
-                    <NavBar/>
                 </div>
                 <div class="login">
                     <svg class="taqat-logo" width="142" height="22" viewBox="0 0 142 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -49,14 +48,15 @@
                         <line y1="5.5" x2="190" y2="5.5" stroke="#D9D9D9"/>
                         <line x1="210" y1="5.5" x2="400" y2="5.5" stroke="#D9D9D9"/>
                     </svg>
-                    <form>
+                    <form @submit.prevent="login">
                         <div class="form-div">
                             <label>Email address</label>
-                            <input type="email" name="email" placeholder="jameelmatar1@example.com">
+                            <input  @input="validateForm()" @focusout="validateForm()" type="email" name="email" placeholder="jameelmatar1@example.com" v-model="form.email" :style="{border : errors.email ? '1px solid #FF4D4F' : '1px solid #D9D9D9'}">
+                            <span v-if="errors.email" class="error">{{ errors.email }}</span>
                         </div>
                         <div class="form-div pass">
                             <label>Password</label>
-                            <input :type="passwordType" name="password">
+                            <input  @input="validateForm()" @focusout="validateForm()" :type="passwordType" name="password" v-model="form.password" :style="{border : errors.password ? '1px solid #FF4D4F' : '1px solid #D9D9D9'}">
                             <div class="svg-div" @click="togglePasswordType" v-if="passwordType == 'text'">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M15.5799 11.9999C15.5799 13.9799 13.9799 15.5799 11.9999 15.5799C10.0199 15.5799 8.41992 13.9799 8.41992 11.9999C8.41992 10.0199 10.0199 8.41992 11.9999 8.41992C13.9799 8.41992 15.5799 10.0199 15.5799 11.9999Z" stroke="#696A70" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -67,11 +67,12 @@
                                 <svg data-v-0774489b="" xmlns="http://www.w3.org/2000/svg" class="dont-show" width="32" height="32" viewBox="0 0 32 32" fill="none"><path data-v-0774489b="" d="M8.65538 6.74805C8.58572 6.66959 8.50118 6.60573 8.40664 6.56016C8.3121 6.51459 8.20945 6.48822 8.10464 6.48259C7.99983 6.47696 7.89494 6.49216 7.79606 6.52733C7.69717 6.5625 7.60626 6.61694 7.52858 6.68748C7.4509 6.75802 7.38801 6.84326 7.34354 6.93827C7.29908 7.03328 7.27392 7.13616 7.26954 7.24095C7.26516 7.34574 7.28164 7.45036 7.31802 7.54875C7.3544 7.64713 7.40996 7.73732 7.48147 7.81409L9.38907 9.91149C5.78804 12.1198 4.23935 15.524 4.17094 15.6786C4.12584 15.78 4.10254 15.8896 4.10254 16.0006C4.10254 16.1115 4.12584 16.2212 4.17094 16.3226C4.20564 16.4008 5.04542 18.2615 6.91237 20.127C9.39998 22.6118 12.542 23.9255 16.0002 23.9255C17.7776 23.9356 19.5369 23.57 21.1628 22.8525L23.3441 25.2511C23.4137 25.3296 23.4983 25.3935 23.5928 25.439C23.6873 25.4846 23.79 25.511 23.8948 25.5166C23.9996 25.5222 24.1045 25.507 24.2034 25.4718C24.3023 25.4367 24.3932 25.3822 24.4709 25.3117C24.5485 25.2412 24.6114 25.1559 24.6559 25.0609C24.7004 24.9659 24.7255 24.863 24.7299 24.7582C24.7343 24.6534 24.7178 24.5488 24.6814 24.4504C24.6451 24.352 24.5895 24.2619 24.518 24.1851L8.65538 6.74805ZM13.348 14.2618L17.4795 18.8044C16.8573 19.1314 16.1441 19.2428 15.4518 19.1209C14.7594 18.999 14.1272 18.6507 13.6544 18.1309C13.1816 17.611 12.895 16.949 12.8395 16.2487C12.784 15.5484 12.9629 14.8495 13.348 14.2618ZM16.0002 22.3403C12.9485 22.3403 10.2824 21.2317 8.07537 19.0461C7.16947 18.1465 6.399 17.1203 5.78804 15.9996C6.25304 15.1287 7.73727 12.6915 10.4827 11.1073L12.2673 13.064C11.5764 13.9483 11.2206 15.0481 11.2627 16.1692C11.3048 17.2902 11.7422 18.3603 12.4976 19.1903C13.2529 20.0202 14.2776 20.5566 15.3905 20.7047C16.5033 20.8527 17.6327 20.6028 18.579 19.9992L20.0395 21.6042C18.7506 22.0983 17.3807 22.348 16.0002 22.3403ZM16.5951 12.8857C16.3884 12.8463 16.2059 12.7264 16.0876 12.5525C15.9694 12.3786 15.9251 12.1649 15.9645 11.9584C16.004 11.7518 16.1239 11.5694 16.2979 11.4512C16.472 11.3331 16.6859 11.2888 16.8925 11.3282C17.9035 11.5241 18.8239 12.0412 19.5167 12.8026C20.2094 13.5639 20.6373 14.5286 20.7365 15.5528C20.7561 15.7621 20.6917 15.9705 20.5574 16.1324C20.4232 16.2942 20.2301 16.3961 20.0206 16.4157C19.9959 16.4172 19.9711 16.4172 19.9463 16.4157C19.748 16.4165 19.5567 16.3432 19.4098 16.2101C19.263 16.0769 19.1714 15.8937 19.1531 15.6964C19.0863 15.0152 18.8013 14.3737 18.3405 13.8673C17.8796 13.3609 17.2675 13.0166 16.5951 12.8857ZM27.8265 16.3226C27.7849 16.4157 26.7805 18.6379 24.519 20.662C24.4417 20.7334 24.351 20.7887 24.2521 20.8247C24.1532 20.8606 24.0482 20.8766 23.9431 20.8716C23.838 20.8667 23.7349 20.8408 23.6399 20.7957C23.5449 20.7505 23.4598 20.6869 23.3896 20.6086C23.3194 20.5302 23.2656 20.4387 23.2311 20.3394C23.1967 20.24 23.1824 20.1348 23.189 20.0299C23.1957 19.9249 23.2231 19.8224 23.2699 19.7281C23.3166 19.6339 23.3816 19.5499 23.4611 19.4811C24.5706 18.485 25.5026 17.3077 26.2174 15.9996C25.605 14.8778 24.8329 13.851 23.9251 12.9511C21.7181 10.7675 19.052 9.65885 16.0002 9.65885C15.3572 9.65806 14.7152 9.71009 14.0807 9.81439C13.9775 9.83263 13.8718 9.83025 13.7695 9.8074C13.6673 9.78456 13.5705 9.74169 13.485 9.68128C13.3994 9.62087 13.3266 9.54412 13.2709 9.45545C13.2152 9.36679 13.1776 9.26796 13.1603 9.1647C13.143 9.06143 13.1464 8.95576 13.1702 8.8538C13.194 8.75183 13.2378 8.65559 13.299 8.57064C13.3603 8.48568 13.4377 8.4137 13.527 8.35883C13.6162 8.30397 13.7155 8.26732 13.819 8.25101C14.5399 8.13205 15.2695 8.07274 16.0002 8.07366C19.4585 8.07366 22.6005 9.38739 25.0881 11.8732C26.955 13.7387 27.7948 15.6003 27.8295 15.6786C27.8746 15.78 27.8979 15.8896 27.8979 16.0006C27.8979 16.1115 27.8746 16.2212 27.8295 16.3226H27.8265Z" fill="#696A70"></path>
                                 </svg>
                             </div>
+                            <span v-if="errors.password" class="error">{{ errors.password }}</span>
                         </div>
-                        <p class="forget">Forgot my password</p>
+                        <router-link class="forget" to="/forgot-password">Forgot my password</router-link>
                         <button>Login</button>
                         <div class="last">
-                            <p>Don’t have an account? </p><span> Sign up</span>
+                            <p>Don’t have an account? </p><router-link to="signup"> Sign up</router-link>
                         </div>
                     </form>
                 </div>
@@ -83,26 +84,151 @@
     </section>
 </template>
 <script setup>
-import {ref} from 'vue'
+import { ref , reactive } from 'vue'
+import { GoogleLogin } from 'vue3-google-login'
+import { useRouter } from 'vue-router'
 import ChangeLang from '../Change/Language/ChangeLang.vue'
 import ChangeMode from '../Change/Mode/ChangeMode.vue'
 import NavBar from '../LandingPage/NavBar.vue'
+import axiosClient from '../Axios/axiosClient'
+import {useUserStore} from '../Store/User/UserStore'
+import { 
+  successAlert, 
+  errorAlert, 
+  warningAlert, 
+  loadingAlert,
+  confirmAlert 
+} from '../Utils/swal'
+
+import * as yup from 'yup'
+
+const clientId = "731405073732-103aku37j7sck3to522jso6kbkdfrokv.apps.googleusercontent.com"
+
+const userStore = useUserStore()
+
+const router = useRouter()
+
+const form = reactive({
+  email: '',
+  password: '',
+})
+
+const errors = reactive({
+  email: '',
+  password: ''
+})
+
 const passwordType = ref('password')
 function togglePasswordType() {
   passwordType.value = (passwordType.value === 'password') ? 'text' : 'password';
 }
+
+// تعريف القواعد البسيطة
+const schema = {
+  email: yup
+    .string()
+    .required('This field cannot be empty')
+    .email('Invalid email format'),
+  
+  password: yup
+    .string()
+    .required('This field cannot be empty')
+    .min(8, 'must be at least 8 characters')
+}
+
+// دالة التحقق البسيطة
+const validateForm = () => {
+  // مسح الأخطاء القديمة
+  Object.keys(errors).forEach(key => errors[key] = '')
+  
+  let isValid = true
+
+  // التحقق من البريد الإلكتروني
+  try {
+    schema.email.validateSync(form.email)
+  } catch (error) {
+    errors.email = error.message
+    isValid = false
+  }
+
+  // التحقق من كلمة المرور
+  try {
+    schema.password.validateSync(form.password)
+  } catch (error) {
+    errors.password = error.message
+    isValid = false
+  }
+
+  return isValid
+}
+
+const login = async() => {
+    if (!validateForm()) {
+        errorAlert('Validation Error', 'Please fill all required fields correctly')
+        return
+    }
+    if (validateForm()) {
+    const loading = loadingAlert('Logging in...', 'Please wait')
+    
+    try {
+        const response = await axiosClient.post('/auth/login', {
+            email: form.email.trim(),
+            password: form.password
+        })
+        
+        loading.close()
+        userStore.updateUserData(response.data.data)
+        successAlert('Success', response.data.data.message)
+        router.push('/')
+        
+    } catch (error) {
+        loading.close()
+        // تحقق من وجود error.response أولاً
+        if (!error.response) {
+            errorAlert('Network Error', 'Please check your internet connection')
+            return
+        }
+        
+        const { status, data } = error.response
+        
+        if (status === 403) {
+            // إذا كان الخطأ 403، تحقق مما إذا كان الحساب غير مفعل
+            if (data.data && data.data.is_verified === false) {
+                // الحساب غير مفعل - توجيه لصفحة التحقق
+                router.push({ name: 'verifyEmail', query : {email : form.email} })
+            } else {
+                // 403 لأسباب أخرى (مثل بيانات خاطئة)
+                errorAlert('Access Denied', data.message || 'Invalid email or password')
+            }
+        } 
+        else if (status === 422) {
+            // خطأ في التحقق من البيانات
+            const errors = data.errors || {}
+            const firstError = Object.values(errors)[0]?.[0] || data.message
+            errorAlert('Validation Error', firstError)
+        }
+        else if (status === 401) {
+            // غير مصرح
+            errorAlert('Unauthorized', data.message || 'Please check your credentials')
+        }
+        else {
+            // أي خطأ آخر
+            errorAlert('Error', data.message || 'Something went wrong')
+        }
+    }
+}
+}
 </script>
 <style scoped>
 section{
-    height:100vh
+    min-height:100vh
 }
 .container{
     display:flex;
     gap:20px;
-    min-height: 100vh;
-    height:fit-content;
-    padding-top: 40px;
-    padding-bottom: 40px;
+    height:100vh;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 .change{
     display: flex;
@@ -123,13 +249,16 @@ section{
     width:50%;
 }
 .right-side img{
+    width:100%;
     max-width:100%;
     height:100%;
-    border-radius:8px;
+    border-radius:30px;
 }
 .login{
     display: flex;
     flex-direction: column;
+    justify-content:center;
+    height:90%;
     align-items: center;
     margin-top:50px;
 }
@@ -166,23 +295,31 @@ section{
     width: 400px !important;
     margin: 10px 0;
 }
+form{
+    display: flex;
+    flex-direction: column;
+}
 form .form-div{
     display: flex;
     flex-direction: column;
     width: 400px;
-    margin: 20px 0;
+    margin: 5px 0;
 }
 form .form-div.pass{
-    margin-bottom:0;
+    margin-bottom:20px;
     position:relative;
+    
 }
 form .form-div.pass svg{
-    position: absolute;
-    right: 12px;
-    bottom: 12px;
     width: 24px;
     height: 24px;
     cursor: pointer;
+}
+form .form-div .svg-div{
+    position:absolute;
+    height:24px;
+    right:12px;
+    top:50px;
 }
 form .form-div label{
     color:var(--text-color);
@@ -199,8 +336,9 @@ form .forget{
     font-size:14px;
     font-weight:400;
     border-bottom:2px solid #87888C;
-    width:120px;
+    width:fit-content;
     cursor:pointer;
+    text-decoration:none;
 }
 form button{
     width: 400px;
@@ -225,83 +363,39 @@ form .last p{
     line-height:25.4px;
     font-weight:400;
 }
-form .last span{
+form .last a{
     font-weight:700;
     line-height:26px;
     cursor:pointer;
+    text-decoration:none;
+    color:black;
+    margin-left:5px;
 }
-:deep(nav){
-    display:none
-}
-:deep(.change-mode){ /* use :deep to change child component style from parent component */
-    cursor:pointer
+.error{
+    color: #FF4D4F;
+    margin-top: 5px;
 }
 @media screen and (max-width:992px){
-    :deep(nav){
-        display:flex;
-    }
-    :deep(.navbar-content){
-        display: flex;
-        flex-direction: column;
-    }
-    :deep(.navbar-content .logo){
-        flex-direction: column;
-        width: 100%;
-        align-items: flex-start;
-        margin-left: 20px;
-    }
-    :deep(.navbar-content .logo-inside){
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        align-items: center;
-    }
-    :deep(.navbar-content .logo .logo-inside .hamburger-svg){
-        display:flex;
-    }
-    :deep(.navbar-content .navbar-list){
-        padding-bottom: 15px;
-        border-bottom: 2px solid #D9D9D9;
-        width: 95%;
-        display:none
-    }
-    :deep(.navbar-content .navbar-list ul){
-        flex-direction: column;
-        align-items: flex-start !important;
-        gap:30px !important;
-    }
-    :deep(.navbar-content .navbar-list ul li){
-        font-size:16px;
-    }
-    :deep(.navbar-content .left-side){
-        gap: 20px;
-        margin-top: 20px;
-        display:none
-    }
     .left-side{
         width:100%;
     }
-    .change{
-        justify-content:flex-end
-    }
-    .right-side , .lang , .mode , .change .back{
+    .right-side{
         display:none
     }
-    :deep(nav){
-        display:flex;
+}
+
+@media screen and (max-width:575px){
+    .google , .or{
+        width:100% !important;
+    }
+    form{
+        width: -webkit-fill-available;
+    }
+    form .form-div{
         width:100%;
     }
-    :deep(nav .taqat-logo){
-        display:none;
-    }
-    :deep(.logo-inside){
-        justify-content:flex-end !important;
-    }
-    :deep(.navbar-list){
-        display:none
-    }
-    :deep(.hamburger-svg){
-        display:flex;
+    form button{
+        width:100%;
     }
 }
 </style>

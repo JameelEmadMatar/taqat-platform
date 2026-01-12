@@ -1,29 +1,30 @@
 <template>
     <section>
-        <div class="container hero">
+        <div class="container hero" :class="{ar : currentLang == 'ar'}">
             <div class="hero-content">
                 <h1 class="hero-title">
-                    <span>Taqat Gaza</span> <span class="highlight">Talent That</span><br>
-                    Shines Beyond Borders
+                    <span>{{currentLang == 'en' ? 'Taqat Gaza' : 'غزة المشرقة'}}</span> <span class="highlight">{{currentLang == 'en' ? 'Talent That' : 'موهبة تتألق'}}</span><br>
+                    {{currentLang == 'en' ? 'Shines Beyond Borders' : 'عبر الحدود'}}
                 </h1>
                 <p class="hero-subtitle">
-                    Hire exceptional freelancers from Gaza and beyond, or grow your<br>
-                    freelance career with meaningful remote work.
+                    {{currentLang == 'en' ? "Hire exceptional freelancers from Gaza and beyond, or grow your ": 'وظّف مستقلين استثنائيين من غزة وما بعدها، أو نمّ مسيرتك المهنية المستقلة من'}}
+                    <br>
+                    {{currentLang == "en" ? 'freelance career with meaningful remote work.' : 'خلال العمل عن بُعد ذي معنى.'}}
                 </p>
                 <div class="hero-features">
-                    <span>Safe Payments</span>
+                    <span>{{currentLang == 'en' ? 'Safe Payments': 'مدفوعات آمنة'}}</span>
                     <svg width="4" height="4" viewBox="0 0 4 4" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="2" cy="2" r="2" fill="#007BD1"/>
                     </svg>
-                    <span>Honest Reviews</span>
+                    <span>{{currentLang == 'en' ? 'Honest Reviews': 'مراجعات صادقة'}}</span>
                     <svg width="4" height="4" viewBox="0 0 4 4" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="2" cy="2" r="2" fill="#007BD1"/>
                     </svg>
-                    <span>Impactful opportunities.</span>
+                    <span>{{currentLang == 'en' ? 'Impactful opportunities.': 'فرص مؤثرة'}}</span>
                 </div>
                 <div class="hero-buttons">
-                    <button class="btn-primary">Hire Talent</button>
-                    <button class="btn-secondary">Find Work</button>
+                    <router-link to="/talents" class="btn-primary">{{currentLang == 'en' ? 'Hire Talent.': 'وظف موهبة'}}</router-link>
+                    <router-link to="/jobs" class="btn-secondary">{{currentLang == 'en' ? 'Find Work.': 'إبحث عن عمل'}}</router-link>
                 </div>
                 <div class="hero-footer">
                     <div class="avatars">
@@ -55,7 +56,7 @@
                             </defs>
                         </svg>
                     </div>
-                    <p>Built for clients, freelancers, and Gaza’s tech community</p>
+                    <p>{{currentLang == 'en' ? 'Built for clients, freelancers, and Gaza’s tech community' : 'مبني للعملاء والمستقلين ومجتمع التكنولوجيا في غزة'}}</p>
                 </div>
             </div>
             <div class="hero-img">
@@ -64,10 +65,20 @@
         </div>
     </section>
 </template>
+
+<script setup>
+import { computed } from 'vue'
+import { useSettingsStore } from '../Store/Settings/SettingStore'
+
+const settingStore = useSettingsStore()
+const currentLang = computed(() => settingStore.getLang)
+
+</script>
+
 <style scoped>
 section{
-background: linear-gradient(to right, #fff, #fff 50%, #ACD4F0 100%);
-    padding: 50px 80px;
+    background: linear-gradient(to right, #fff, #fff 50%, #ACD4F0 100%);
+    padding: 30px 0;
     border-top: 1px solid #D9D9D9;
 
 }
@@ -76,6 +87,11 @@ background: linear-gradient(to right, #fff, #fff 50%, #ACD4F0 100%);
 }
 .hero-content , .hero-img{
     width:50%;
+}
+.hero-img{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
 }
 .hero-title{
     font-size:48px;
@@ -117,11 +133,19 @@ background: linear-gradient(to right, #fff, #fff 50%, #ACD4F0 100%);
     background-color: var(--main-color);
     color: #fff;
     border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
 }
 .hero-buttons .btn-secondary{
-    border:1px solid #D9D9D9;
-    color:black;
-    background-color:#fff;
+    border: 1px solid #D9D9D9;
+    color: black;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
 }
 .hero-footer{
     display: flex;
@@ -135,6 +159,12 @@ background: linear-gradient(to right, #fff, #fff 50%, #ACD4F0 100%);
     border-radius: 50%;
     margin-left:-12px;
 }
+.ar .hero-footer .avatars{
+    margin-left:10px;
+}
+.ar .hero-footer .avatars svg:first-child{
+    margin-left:-12px;
+}
 .hero-footer .avatars svg:first-child{
     margin-left:0;
 }
@@ -145,6 +175,7 @@ background: linear-gradient(to right, #fff, #fff 50%, #ACD4F0 100%);
 .hero-img img{
     width:662px;
     height:458px;
+    object-fit:cover;
     border-radius:8px;
 }
 @media (min-width: 1200px) and (max-width:1399px){

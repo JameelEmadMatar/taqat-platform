@@ -1,142 +1,143 @@
 <template>
   <section class="showcase-section">
-      <!-- الـ Carousel -->
-    <div class="carousel-wrapper" @wheel="handleWheel">
-    <button class="nav-btn left-btn" @click="scrollLeft">
-        <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
-    </button>
+    <div class="carousel-wrapper">
+      <swiper
+        :modules="modules"
+        :slides-per-view="'auto'"
+        :space-between="15"
+        :free-mode="true"
+        :grab-cursor="true"
+        :mousewheel="{ forceToAxis: true, sensitivity: 1 }"
+        :touch-ratio="1"
+        :resistance-ratio="0.5"
+        navigation
+        class="portfolio-swiper"
+      >
+        <swiper-slide v-for="port in portfolio" :key="port.id" class="mockup-slide">
+          <div class="phone-frame">
+            <img :src="port.image" alt="Template preview" />
+          </div>
+        </swiper-slide>
 
-    <div class="carousel" ref="carousel">
-        <div class="mockup" v-for="n in 8" :key="n">
-        <div class="phone-frame">
-            <img :src="`src/assets/mockups/mockup-${n}.jpg`" alt="Template preview" />
-        </div>
-        </div>
-    </div>
-
-    <button class="nav-btn right-btn" @click="scrollRight">
-        <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-    </button>
+        <!-- أسهم Swiper (اختيارية) -->
+        <div class="swiper-button-prev custom-prev"></div>
+        <div class="swiper-button-next custom-next"></div>
+      </swiper>
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation, FreeMode, Mousewheel } from 'swiper/modules'
 
-const carousel = ref(null)
+// استيراد الستايلات الأساسية لـ Swiper
+import 'swiper/css'
+import 'swiper/css/navigation'
 
-const scrollLeft = () => {
-  carousel.value.scrollBy({ left: -300, behavior: 'smooth' })
-}
+const modules = [Navigation, FreeMode, Mousewheel]
 
-const scrollRight = () => {
-  carousel.value.scrollBy({ left: 300, behavior: 'smooth' })
-}
-
-// سحب بالعجلة في الديسكتوب
-const handleWheel = (e) => {
-  if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return
-  carousel.value.scrollBy({ left: e.deltaY * 0.8, behavior: 'smooth' })
-}
-
-onMounted(() => {
-  // دعم السحب باللمس على الموبايل
-  let startX = 0
-  carousel.value.addEventListener('touchstart', e => startX = e.touches[0].clientX)
-  carousel.value.addEventListener('touchmove', e => {
-    const diff = startX - e.touches[0].clientX
-    carousel.value.scrollBy({ left: diff, behavior: 'auto' })
-    startX = e.touches[0].clientX
-  })
+const props = defineProps({
+  portfolio: {
+    type: Array,
+    required: true
+  }
 })
 </script>
 
 <style scoped>
 .showcase-section {
-    margin:10px 0 ;
-}
-
-.title {
-  font-size: 3.8rem;
-  font-weight: 800;
-  color: #1a1a1a;
-  margin-bottom: 16px;
-  line-height: 1.1;
-}
-
-.subtitle {
-  font-size: 1.3rem;
-  color: #666;
-  margin-bottom: 80px;
+  margin: 10px 0;
 }
 
 .carousel-wrapper {
-    position:relative;
-    overflow:hidden;
-    padding:0 10px;
+  position: relative;
+  padding: 0 10px;
 }
 
-.carousel {
-  display: flex;
-  gap: 15px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
+/* Swiper container */
+.portfolio-swiper {
   padding: 40px 0;
-  scrollbar-width: none;
+  overflow: hidden;
 }
 
-.carousel::-webkit-scrollbar {
-  display: none;
+/* كل slide (mockup) */
+.mockup-slide {
+  width: 120px !important; /* عرض ثابت لكل عنصر */
+  flex-shrink: 0;
 }
-
 
 .phone-frame img {
-  width:120px;
-  height:90px;
+  width: 120px;
+  height: 90px;
   border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.2);
+  display: block;
 }
 
-/* الأسهم */
-.nav-btn {
+/* تخصيص الأسهم (نفس التصميم اللي عندك) */
+:deep(.custom-prev),
+:deep(.custom-next) {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   background: white;
-  border: none;
   border-radius: 50%;
   box-shadow: 0 10px 30px rgba(0,0,0,0.15);
   cursor: pointer;
-  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s;
+  z-index: 10;
 }
 
-.nav-btn:hover {
+:deep(.custom-prev) { left: 0; }
+:deep(.custom-next) { right: 10px; }
+
+:deep(.custom-prev:hover),
+:deep(.custom-next:hover) {
   transform: translateY(-50%) scale(1.1);
   box-shadow: 0 15px 40px rgba(0,0,0,0.2);
 }
 
-.left-btn { left: 0; }
-.right-btn { right: 20px; }
+:deep(.custom-prev::after),
+:deep(.custom-next::after) {
+  font-size: 28px;
+  color: #333;
+  font-weight: bold;
+}
 
-.nav-btn svg {
-  width: 28px;
-  height: 28px;
-  fill: #333;
+/* إخفاء الأسهم إذا كان العناصر أقل من 5 (اختياري) */
+:deep(.swiper-button-disabled) {
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .title { font-size: 2.8rem; }
-  .subtitle { margin-bottom: 60px; }
-  .mockup { width: 220px; }
-  .carousel { gap: 24px; }
-  .nav-btn { width: 50px; height: 50px; }
-  .nav-btn svg { width: 24px; height: 24px; }
+  .mockup-slide {
+    width: 140px !important; /* أكبر شوية على الموبايل لو بدك */
+  }
+
+  .phone-frame img {
+    width: 140px;
+    height: 105px;
+  }
+
+  :deep(.custom-prev),
+  :deep(.custom-next) {
+    width: 50px;
+    height: 50px;
+  }
+
+  :deep(.custom-prev::after),
+  :deep(.custom-next::after) {
+    font-size: 24px;
+  }
 }
 </style>

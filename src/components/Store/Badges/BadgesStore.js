@@ -43,8 +43,22 @@ export const useBadgesStore = defineStore('badges', {
                 id : 7,
                 name : "Add a professional profile picture",
                 status : false,
+            },
+            {
+                id : 8 , 
+                name : "Education",
+                status : false,
+            },
+            {
+                id : 9 , 
+                name : "Edit Education",
+                status : false,
+            },
+            {
+                id : 10 ,
+                name : "About",
+                status : false,
             }
-            
         ],
     }),
     getters: {

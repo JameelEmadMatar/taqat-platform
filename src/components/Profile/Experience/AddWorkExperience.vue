@@ -100,7 +100,9 @@
             </div>
         </div>
     </div>
+    <!--
     <DiscardChanges :nestedIndex = "2"/>
+    -->
 </template>
 
 <script setup>
@@ -110,7 +112,7 @@ import { useBadgesStore } from '../../Store/Badges/BadgesStore'
 import FlatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'  
 import TopBar from '../BopUpTopBar/TopBar.vue'
-import DiscardChanges from '../../Auth/IdentityVerification/DiscardChanges.vue'
+//import DiscardChanges from '../../Auth/IdentityVerification/DiscardChanges.vue'
 const badgesStore = useBadgesStore()
 const roundStore = useRoundStore()
 const showStatus = computed(() => {

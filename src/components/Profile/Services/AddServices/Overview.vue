@@ -206,23 +206,13 @@
                 </form>
             </div>
         </div>
-        <DiscardChanges :addService='true'/>
     </div>
-        <!-- Action Buttons -->
-        <div class="buttons">
-            <button @click="cancle" class="cancle">Cancle</button>
-            <button
-                @click="continue"
-                class="continue"
-            >
-                continue
-            </button>
-        </div>
+    <BottomButtons/>
 </template>
 
 <script setup>
 import { ref , computed } from 'vue'
-import DiscardChanges from '../../../Auth/IdentityVerification/DiscardChanges.vue'
+import BottomButtons from './BottomButtons.vue'
 const form = ref({
     name : null,
     industry : null,
@@ -256,10 +246,6 @@ const inputClick = () => {
     }
     choiseShow.value = !choiseShow.value
 }
-const cancle = () => {
-    useRoundStore().updateDiscardBoxStatus(true)
-}
-
 </script>
 
 <style scoped>
@@ -280,7 +266,7 @@ const cancle = () => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap:20px;
+    gap:10px;
     flex-wrap:wrap;
 }
 .prog-details{
@@ -427,41 +413,6 @@ form .form-div input{
 .selected{
     background-color: var(--main-color);
     font-weight: bold;
-    color: #fff;
-}
-.buttons{
-    display: flex;
-    align-items: center;
-    justify-content: end;
-    gap: 10px;
-    position:absolute;
-    bottom: 20px;
-    right: 30px;
-}
-.buttons button{
-    width: 100px;
-    border: 1px solid #D9D9D9;
-    outline: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-}
-.buttons .cancle{
-    background-color:#fff;
-    color:black;
-}
-.buttons .cancle:hover{
-    color: #006fbc;
-    border-color: #006fbc;
-    background: #ffffff;
-}
-.buttons .continue{
-    background-color:var(--main-color);
-    color:#fff;
-}
-.buttons .continue:hover{
-    background: #006fbc;
     color: #fff;
 }
 </style>

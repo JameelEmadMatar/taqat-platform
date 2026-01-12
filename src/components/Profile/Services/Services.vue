@@ -4,7 +4,7 @@
             <div class="header">
                 <div class="header-title">
                     <span v-if="(services.length > 0)">{{services.length}}</span>
-                    <p>Sevices</p>
+                    <p>Services</p>
                 </div>
                 <div class="add-div" @click="showAddBox" v-if="(services.length > 0)">
                     <svg width="117" height="27" viewBox="0 0 117 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -50,8 +50,11 @@
 import { ref } from 'vue'
 import AddServices from './AddServices/AddServices.vue'
 import ServicesBoxs from './ServicesBoxs.vue'
+import { useServicesStore } from '../../Store/Services/ServicesStore'
+const servicesStore = useServicesStore()
 const fliterActive = ref('All')
-const services = ref([
+/*
+    const services = ref([
     {
         id : 0,
         src : '/src/assets/services/1.png',
@@ -93,6 +96,8 @@ const services = ref([
         ratePersonNumber : 4
     }
 ])
+*/
+const services = ref([])
 const servicesShows = ref(services.value)
 const filter = (status) =>{
     fliterActive.value = status
@@ -101,6 +106,9 @@ const filter = (status) =>{
     }else{
         servicesShows.value = services.value.filter(e => e.status == status)
     }
+}
+const showAddBox = () => {
+    servicesStore.updateShowStatus(true)
 }
 </script>
 
