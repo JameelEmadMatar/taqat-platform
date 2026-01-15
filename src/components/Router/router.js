@@ -25,7 +25,7 @@ const routes = [
     {
         path : '/policies',
         name : "policies",
-        component : () => import('../Utils/policies.vue')
+        component : () => import('../Utils/Policies.vue')
     },
     {
         path : '/forgot-password',

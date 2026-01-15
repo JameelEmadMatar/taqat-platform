@@ -4,35 +4,47 @@
             <div class="lists">
                 <ul>
                     <li>
-                        <a href="#">About</a>
+                        <a href="#">{{currentLang == 'en' ? 'About' : 'من نحن'}}</a>
                     </li>
                     <li>
-                        <a href="#">How It Works</a>
+                        <a href="#">{{currentLang == 'en' ? 'How It Works' : 'كيف يعمل'}}</a>
                     </li>
                     <li>
-                        <a href="#">Help / FAQ </a>
+                        <a href="#">{{currentLang == 'en' ? 'Help / FAQ' : 'المساعدة / الأسئلة الشائعة'}}</a>
                     </li>
                     <li>
-                        <a href="#">Terms of Service</a>
+                        <a href="#">{{currentLang == 'en' ? 'Terms of Service' : 'شروط الخدمة'}}</a>
                     </li>
                     <li>
-                        <a href="#">Privacy Policy</a>
+                        <router-link to="/policies">{{currentLang == 'en' ? 'Privacy Policy' : 'سياسة الخصوصية'}}</router-link>
+                    </li>
+                    <li>
+                        <a href="#">{{currentLang == 'en' ? 'Return Policy' : 'سياسة الإسترجاع'}}</a>
                     </li>
                 </ul>
-                <div class="copy">
-                    © Taqat Gaza, 2025.
-                </div>
             </div>
             <div class="options">
                 <ChangeLang/>
                 <ChangeMode/>
             </div>
         </div>
+        <div class="copy">
+            <img src="../../assets/credit_logo.png" ali="credit_logo">
+            <p>{{currentLang == 'en' ? '© BrightGaza, 2026.' : '© غزة المشرقة، 2026.'}}</p>
+            <p>bright@taqatgaza.com</p>
+            <p>{{currentLang == 'en' ? 'Gaza - Al Rimal - Al Rehab Mall' : 'غزة - الرمال - مول الرحاب'}}</p>
+        </div>
     </footer>
 </template>
 <script setup>
+import { computed } from 'vue'
+import { useSettingsStore } from '../Store/Settings/SettingStore'
 import ChangeLang from '../Change/Language/ChangeLang.vue'
 import ChangeMode from '../Change/Mode/ChangeMode.vue'
+
+const settingStore = useSettingsStore()
+const currentLang = computed(() => settingStore.getLang)
+
 </script>
 <style scoped>
 footer{
@@ -61,9 +73,15 @@ footer{
     color:#191919
 }
 .copy {
-    margin-top: 80px;
-    margin-left: 60px;
+    margin-right: 20px;
+    text-align:center;
     font-weight: bold;
+}
+.copy img{
+    width:100px;
+}
+.copy p{
+    margin:15px 0;
 }
 .options{
     display:flex;

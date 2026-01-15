@@ -39,7 +39,7 @@
         </div>
 
         <!-- القايمة -->
-        <div class="navbar-list" :class="{ 'open': isMenuOpen }">
+        <div class="navbar-list" :class="{ 'open': isMenuOpen && !user }">
           <ul>
             <li>
               <router-link to="/talents">
@@ -48,8 +48,8 @@
             </li>
             <li><router-link to="/jobs">{{currentLang == 'en' ? 'Find Jobs' : 'البحث عن العمل'}}</router-link></li>
             <li><a href="#">{{currentLang == 'en' ? 'Find a Service' : 'البحث عن خدمة'}}</a></li>
-            <li v-if="user"><a href="#">Post a Service</a></li>
-            <li v-if="user"><a href="#">My Dashboard</a></li>
+            <li v-if="user"><a href="#">{{currentLang == 'en' ? 'Post a Service' : 'نشر خدمة'}}</a></li>
+            <li v-if="user"><a href="#">{{currentLang == 'en' ? 'My Dashboard' : 'لوحة التحكم'}}</a></li>
             <li v-if="!user"><a href="/#works">{{currentLang == 'en' ? 'How It Works' : 'كيف يعمل'}}</a></li>
             <li v-if='!user'><a href="/#about">{{currentLang == 'en' ? 'About' : 'من نحن'}}</a></li>
           </ul>
@@ -58,7 +58,7 @@
 
       <!-- الجانب الأيمن -->
       <div class="left-side" :class="{ 'open': isMenuOpen }" v-if="!user">
-        <router-link to="/login">
+        <router-link to="/login" class="btn1">
             <button>{{currentLang == 'en' ? 'Sign in' : 'تسجيل الدخول'}}</button>
         </router-link>
         <div class="btn2">
@@ -69,14 +69,20 @@
           </svg>
         </div>
       </div>
+      <NavBarRightLoginButtons/>
     </div>
   </nav>
+  <Teleport to="#app" v-if="user && isMenuOpen">
+    <NavBarRightLoginMobile :isMenuOpen="isMenuOpen"/>
+  </Teleport>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted , computed } from 'vue'
-import {useUserStore} from '../Store/User/UserStore'
+import { useUserStore } from '../Store/User/UserStore'
 import { useSettingsStore } from '../Store/Settings/SettingStore'
+import NavBarRightLoginMobile from './NavBarRightLoginMobile.vue'
+import NavBarRightLoginButtons from './NavBarRightLoginButtons.vue'
 
 const settingStore = useSettingsStore()
 const currentLang = computed(() => settingStore.getLang)
@@ -93,7 +99,6 @@ const handleResize = () => {
 onMounted(() => {
   window.addEventListener('resize', handleResize)
   handleResize()
-  console.log(user.value)
 })
 
 onUnmounted(() => {
@@ -128,6 +133,7 @@ window.addEventListener('resize', () => {
   gap:30px;
 }
 .navbar-content .logo .navbar-list ul li{
+  font-weight:bold;
   list-style:none
 }
 .navbar-content .logo .navbar-list ul li a{
@@ -179,64 +185,71 @@ window.addEventListener('resize', () => {
     display:none !important
 }
 @media screen and (min-width:991px) and (max-width:1050px){
-    .left-side button{
-        max-width:100px;
-    }
-    .btn2{
-        max-width:130px !important;
-    }
+  ul{
+    font-size:14px;
+  }
+  .left-side button{
+    max-width:100px;
+  }
+  .btn2{
+    max-width:130px !important;
+  }
 }
-@media screen and (min-width:767px) and (max-width:991px){
+@media screen and (max-width:991px){
     .taqat-logo{
         width:115px;
     }
-    .left-side button{
-        max-width:100px;
+    .left-side{
+      width:100%;
     }
-    .btn2{
-        max-width:130px !important;
-    }
-    ul{
-        gap:10px !important
+    .left-side .btn1 , .left-side .btn2{
+      width: 50% !important;
+      text-align: center;
     }
     ul li{
-        font-size:12px;
+        font-size:14px;
+    }
+    .navbar-content{
+      display: flex;
+      flex-direction: column;
+    }
+    .navbar-content .logo{
+      flex-direction: column;
+      width: 100%;
+      align-items: flex-start;
+      margin-left: 20px;
+    }
+    .navbar-content .logo-inside{
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      align-items: center;
+    }
+    .navbar-content .logo .logo-inside .hamburger-svg{
+      display:flex;
+    }
+    .navbar-content .navbar-list{
+      padding-bottom: 15px;
+      border-bottom: 2px solid #D9D9D9;
+      width: 95%;
+      display:none;
+    }
+    .navbar-content .navbar-list ul{
+      flex-direction: column;
+      align-items: flex-start !important;
+    }
+    .navbar-content .left-side{
+      gap: 20px;
+      margin-top: 20px;
+      display:none;
     }
 }
 @media screen and (max-width:767px){
-    .navbar-content{
-        display: flex;
-        flex-direction: column;
+      .left-side button{
+      max-width:100px;
     }
-    .navbar-content .logo{
-        flex-direction: column;
-        width: 100%;
-        align-items: flex-start;
-        margin-left: 20px;
-    }
-    .navbar-content .logo-inside{
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        align-items: center;
-    }
-    .navbar-content .logo .logo-inside .hamburger-svg{
-        display:flex;
-    }
-    .navbar-content .navbar-list{
-        padding-bottom: 15px;
-        border-bottom: 2px solid #D9D9D9;
-        width: 95%;
-        display:none
-    }
-    .navbar-content .navbar-list ul{
-        flex-direction: column;
-        align-items: flex-start !important;
-    }
-    .navbar-content .left-side{
-        gap: 20px;
-        margin-top: 20px;
-        display:none
+    .btn2{
+        max-width:130px !important;
     }
 }
 </style>
